@@ -22,8 +22,7 @@ namespace LevelGen
 
         private void CreateInitialChamber()
         {
-            var initialChamber = Instantiate(Chambers.PickOne(), transform).GetComponent<Chamber>();
-            RegisterNewSection(initialChamber.Bounds);
+            Instantiate(Chambers.PickOne(), transform).GetComponent<Chamber>().Initialize(this);
         }
 
         public bool IsSectionValid(Collider newSection, Collider sectionToIgnore)

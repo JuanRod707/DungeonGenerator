@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace LevelGen
 {
@@ -8,10 +9,13 @@ namespace LevelGen
         public Collider Bounds;
 
         private Level levelContainer;
+        private float waitTime = 0.2f;
 
-        void Start()
+        public void Initialize(Level level)
         {
-            levelContainer = GetComponentInParent<Level>();
+            levelContainer = level;
+            transform.SetParent(levelContainer.transform);
+            levelContainer.RegisterNewSection(Bounds);
             
             if (levelContainer.LevelSize > 0)
                 GenerateAnnexes();
@@ -21,7 +25,7 @@ namespace LevelGen
         {
             foreach (var e in Exits)
             {
-                GenerateChamber(e);
+                StartCoroutine(WaitAndGenerate(e));
             }
         }
         
@@ -30,13 +34,18 @@ namespace LevelGen
             var candidate = Instantiate(levelContainer.Chambers.PickOne(), exit).GetComponent<Chamber>();
             if (levelContainer.IsSectionValid(candidate.Bounds, Bounds))
             {
-                candidate.transform.SetParent(levelContainer.transform);
-                levelContainer.RegisterNewSection(candidate.Bounds);
+                candidate.Initialize(levelContainer);
             }
             else
             {
                 Destroy(candidate.gameObject);   
             }
+        }
+        
+        IEnumerator WaitAndGenerate(Transform t)
+        {
+            yield return new WaitForSeconds(waitTime);
+            GenerateChamber(t);
         }
     }
 }

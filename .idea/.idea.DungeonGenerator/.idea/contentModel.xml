@@ -19,6 +19,13 @@
             <e p="ExtensionMethods.cs" t="Include" />
             <e p="Level.cs" t="Include" />
           </e>
+          <e p="Movement" t="Include">
+            <e p="CameraLook.cs" t="Include" />
+            <e p="Input.cs" t="Include" />
+            <e p="KinematicMovement.cs" t="Include" />
+            <e p="Movement.cs" t="Include" />
+            <e p="PhysicsMovement.cs" t="Include" />
+          </e>
         </e>
       </e>
       <e p="DungeonGenerator.sln" t="IncludeFlat" />
